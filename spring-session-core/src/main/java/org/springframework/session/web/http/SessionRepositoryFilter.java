@@ -35,6 +35,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.core.annotation.Order;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.session.Session;
 import org.springframework.session.SessionRepository;
 
@@ -131,18 +132,19 @@ public class SessionRepositoryFilter<S extends Session> extends OncePerRequestFi
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		request.setAttribute(SESSION_REPOSITORY_ATTR, this.sessionRepository);
-
-		SessionRepositoryRequestWrapper wrappedRequest = new SessionRepositoryRequestWrapper(request, response);
-		SessionRepositoryResponseWrapper wrappedResponse = new SessionRepositoryResponseWrapper(wrappedRequest,
-				response);
-
-		try {
-			filterChain.doFilter(wrappedRequest, wrappedResponse);
-		}
-		finally {
-			wrappedRequest.commitSession();
-		}
+		throw new HttpMessageConversionException("Test");
+//		request.setAttribute(SESSION_REPOSITORY_ATTR, this.sessionRepository);
+//
+//		SessionRepositoryRequestWrapper wrappedRequest = new SessionRepositoryRequestWrapper(request, response);
+//		SessionRepositoryResponseWrapper wrappedResponse = new SessionRepositoryResponseWrapper(wrappedRequest,
+//				response);
+//
+//		try {
+//			filterChain.doFilter(wrappedRequest, wrappedResponse);
+//		}
+//		finally {
+//			wrappedRequest.commitSession();
+//		}
 	}
 
 	@Override
